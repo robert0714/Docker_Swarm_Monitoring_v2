@@ -1,0 +1,15 @@
+- hosts: swarm-master
+  remote_user: vagrant
+  serial: 1
+  vars:
+        # docker_swarm_worker_token: ""
+  roles:
+    # - common
+    # - docker
+    - swarm
+
+# - hosts: swarm-node
+#   remote_user: vagrant
+#   serial: 1
+#   roles:
+#     - swarm
