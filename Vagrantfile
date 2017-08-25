@@ -15,7 +15,7 @@ Vagrant.configure(2) do |config|
       d.vm.network "private_network", ip: "10.100.193.20#{i}"
 #      d.vm.network "public_network", bridge: "eno4", gateway: "192.168.57.1" , ip: "192.168.57.4#{i}"  ,  netmask: "255.255.255.0" , auto_config: "false"
       d.vm.provider "virtualbox" do |v|        
-        v.memory = 2048
+        v.memory = 1536
       end
     end
   end 
@@ -28,7 +28,7 @@ Vagrant.configure(2) do |config|
     d.vm.provision :shell, path: "scripts/bootstrap_ansible.sh"
     d.vm.provision :shell, inline: "PYTHONUNBUFFERED=1 ansible-playbook /vagrant/ansible/cd.yml -c local"    
     d.vm.provider "virtualbox" do |v|
-      v.memory = 2048
+      v.memory = 1024
     end
   end   
   if Vagrant.has_plugin?("vagrant-cachier")
