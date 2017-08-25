@@ -29,21 +29,35 @@
 #   when:  "swarm_init is defined   and 'active'  in swarm_status.stdout_lines "
 #   register: swarm_worker_token
 #   tags: [swarm]
-
-
-- set_fact:
-    docker_swarm_worker_token: 1
-  when:  "docker_swarm_worker_token is not defined "
+- name: display token(1)
+  debug:
+    msg: "  {{ hostvars[groups['swarm-master'][0]]['docker_swarm_worker_token'] }} "
+  
+  when:  "{{ hostvars[groups['swarm-master'][0]]['docker_swarm_worker_token'] is   defined }} "
   tags: [swarm]
 
-- set_fact:
+- name: set_fact (1-1)
+  set_fact:
+    docker_swarm_worker_token: 1
+    vv: 1
+  when:  "{{ hostvars[groups['swarm-master'][0]]['docker_swarm_worker_token'] is not  defined }} "
+  tags: [swarm]
+
+- name: set_fact (1-2)
+  set_fact:
+    docker_swarm_worker_token:  "{{ hostvars[groups['swarm-master'][0]]['docker_swarm_worker_token'] }} "
+  when:  "{{ vv is  not   defined }} "
+  tags: [swarm]
+
+- name: set_fact (2)
+  set_fact:
     docker_swarm_worker_token: " {{ 1 + docker_swarm_worker_token }} "
   when:  "docker_swarm_worker_token is   defined "
   tags: [swarm]
 
-- name: display token
+- name: display token(2)
   debug:
-    msg: " {{ docker_swarm_worker_token }} {{ hostvars[groups['swarm-master'][0]] }} "
+    msg: "  {{ hostvars[groups['swarm-master'][0]]['docker_swarm_worker_token'] }} "
   tags: [swarm]
 
 
