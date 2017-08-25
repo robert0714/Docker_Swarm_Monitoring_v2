@@ -4,8 +4,8 @@
   vars:
         # docker_swarm_worker_token: ""
   roles:
-    # - common
-    # - docker
+    - common
+    - docker
     - swarm
 
 # - hosts: swarm-node
