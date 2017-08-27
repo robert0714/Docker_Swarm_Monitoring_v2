@@ -10,7 +10,7 @@ Vagrant.configure(2) do |config|
   (1..5).each do |i|
     config.vm.define "swarm-#{i}" do |d|
       d.vm.box = "bento/centos-7.3"
-      d.vm.box_version = "2.3.7"
+#      d.vm.box_version = "2.3.7"
       d.vm.hostname = "swarm-#{i}"
       d.vm.network "private_network", ip: "10.100.193.20#{i}"
 #      d.vm.network "public_network", bridge: "eno4", gateway: "192.168.57.1" , ip: "192.168.57.4#{i}"  ,  netmask: "255.255.255.0" , auto_config: "false"
