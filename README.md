@@ -50,7 +50,7 @@ docker service create \
     --mount "type=bind,source=/proc,target=/host/proc" \
     --mount "type=bind,source=/sys,target=/host/sys" \
     --mount "type=bind,source=/,target=/rootfs" \
-    prom/node-exporter:0.12.0 \
+    prom/node-exporter:v0.14.0 \
     -collector.procfs /host/proc \
     -collector.sysfs /host/proc \
     -collector.filesystem.ignored-mount-points \
@@ -75,7 +75,7 @@ docker service create --name cadvisor \
     --mount "type=bind,source=/var/run,target=/var/run" \
     --mount "type=bind,source=/sys,target=/sys" \
     --mount "type=bind,source=/var/lib/docker,target=/var/lib/docker" \
-    google/cadvisor:v0.24.1
+    google/cadvisor:v0.26.1
 
 docker service ps cadvisor
 
@@ -104,17 +104,18 @@ docker exec -it $UTIL_ID \
 
 exit
 
-cat conf/prometheus.yml
+cat /vagrant/prometheus/conf/prometheus.yml
 
-mkdir -p docker/prometheus
+mkdir -p /vagrant/data/prometheus
+
 
 docker service create \
     --name prometheus \
     --network proxy \
     -p 9090:9090 \
-    --mount "type=bind,source=$PWD/conf/prometheus.yml,target=/etc/prometheus/prometheus.yml" \
-    --mount "type=bind,source=$PWD/docker/prometheus,target=/prometheus" \
-    prom/prometheus:v1.2.1
+    --mount "type=bind,source=/vagrant/prometheus/conf/prometheus.yml,target=/etc/prometheus/prometheus.yml" \
+    --mount "type=bind,source=/vagrant/data/prometheus,target=/prometheus" \
+    prom/prometheus:v1.7.1
 
 docker service ps prometheus
 
@@ -130,7 +131,8 @@ docker service create \
     --name grafana \
     --network proxy \
     -p 3000:3000 \
-    grafana/grafana:3.1.1
+    grafana/grafana:4.4.3
+    ##3.1.1
 
 docker service ps grafana
 
@@ -147,9 +149,9 @@ docker service create \
 
 docker service ps elasticsearch
 
-docker service create \
+ docker service create \
     --name logstash \
-    --mount "type=bind,source=$PWD/conf,target=/conf" \
+    --mount "type=bind,source=/vagrant/logstash/conf,target=/conf" \
     --network proxy \
     -e LOGSPOUT=ignore \
     logstash:2.4 \
@@ -187,7 +189,7 @@ docker service create \
     --mount "type=bind,source=/,target=/rootfs" \
     --mount "type=bind,source=/etc/hostname,target=/etc/host_hostname" \
     -e HOST_HOSTNAME=/etc/host_hostname \
-    basi/node-exporter:v0.1.1 \
+    basi/node-exporter:v1.14.0 \
     -collector.procfs /host/proc \
     -collector.sysfs /host/proc \
     -collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($|/)" \
