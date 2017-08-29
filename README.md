@@ -117,7 +117,7 @@ docker service create \
     --mount "type=bind,source=/vagrant/data/prometheus,target=/prometheus" \
     prom/prometheus:v1.2.1
 
-###
+### v1.7.1
 ### only v1.2.1
 
 docker service ps prometheus
