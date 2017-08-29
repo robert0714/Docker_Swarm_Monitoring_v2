@@ -115,7 +115,10 @@ docker service create \
     -p 9090:9090 \
     --mount "type=bind,source=/vagrant/prometheus/conf/prometheus.yml,target=/etc/prometheus/prometheus.yml" \
     --mount "type=bind,source=/vagrant/data/prometheus,target=/prometheus" \
-    prom/prometheus:v1.7.1
+    prom/prometheus:v1.2.1
+
+###
+### only v1.2.1
 
 docker service ps prometheus
 
